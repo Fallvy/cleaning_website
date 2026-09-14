@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ремонт одежды и химчистка | Минск, Сморговский тракт 7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Подключаем стили и скрипт Lenis для премиального инерционного скролла -->
+    <link rel="stylesheet" href="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.css">
+    <style>
+        :root {
+            --bg-dark: #070b12;
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.35);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.07), transparent 30%),
+                radial-gradient(circle at 90% 70%, rgba(16, 185, 129, 0.07), transparent 30%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(7, 11, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 18px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--emerald);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--emerald);
+        }
+
+        .phone {
+            font-weight: 700;
+            color: var(--emerald);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: background 0.3s;
+        }
+
+        .phone:hover {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        section, footer {
+            padding: 90px 0;
+        }
+
+        .hero {
+            padding-top: 150px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--emerald);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+            max-width: 540px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            background: var(--emerald);
+            color: #070b12;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            box-shadow: 0 4px 25px var(--emerald-glow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
+            background: #34d399;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            margin-top: 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .hero-badge span {
+            color: #f59e0b;
+        }
+
+        .hero-card-visual {
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(16,185,129,0.03));
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .stat-box h3 {
+            font-size: 2rem;
+            color: var(--emerald);
+            margin-bottom: 5px;
+        }
+
+        .stat-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        /* Bento Grid Services */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .bento-card {
+            padding: 40px 30px;
+            border-radius: 24px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .bento-card.large {
+            grid-column: span 2;
+        }
+
+        .bento-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .bento-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Before / After Slider Section */
+        .works-slider-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .work-card {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            transition: transform 0.4s;
+        }
+
+        .work-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .comparison-wrapper {
+            position: relative;
+            height: 280px;
+            width: 100%;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Общий класс для слоев изображений */
+        .comparison-wrapper img,
+        .img-before-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        /* Слой ПОСЛЕ (внизу) */
+        .img-after {
+            z-index: 1;
+        }
+
+        /* Контейнер ДО, который обрезается по ширине ползунка */
+        .img-before-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%; /* меняется скриптом */
+            overflow: hidden;
+            z-index: 2;
+            border-right: 2px solid var(--emerald);
+        }
+
+        /* Чтобы картинка внутри контейнера ДО не сжималась при изменении ширины родителя, фиксируем её ширину по размеру карточки */
+        .img-before-container img {
+            width: var(--wrapper-width, 100%);
+            max-width: none;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: var(--emerald);
+            z-index: 10;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+        }
+
+        .slider-handle::after {
+            content: '◄►';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--emerald);
+            color: #070b12;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 6px 8px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .work-info {
+            padding: 25px;
+        }
+
+        .work-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .work-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Process Steps */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .process-step {
+            padding: 40px 30px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-num {
+            font-size: 4rem;
+            font-weight: 800;
+            color: rgba(16, 185, 129, 0.15);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .process-step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .process-step p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Reviews Grid */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .review-card {
+            padding: 35px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .review-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .author-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .review-stars {
+            color: #f59e0b;
+            letter-spacing: 2px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(4, 7, 12, 0.9);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-info h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .footer-info p {
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--emerald);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--emerald);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 968px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero p { margin: 0 auto 36px; }
+            .bento-grid, .works-slider-container, .process-grid, .reviews-grid, .footer-grid { grid-template-columns: 1fr; }
+            .bento-card.large { grid-column: span 1; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.8rem; }
+            section, footer { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">Clean<span>&</span>Fix</a>
+            <nav class="nav-links">
+                <a href="#services">Услуги</a>
+                <a href="#works">Примеры работ</a>
+                <a href="#process">Процесс</a>
+                <a href="#reviews">Отзывы</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+            <a href="tel:+375257483789" class="phone">+375 25 748-37-89</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="fade-up">
+                <span class="card-tag">Минск • Сморговский тракт, 7</span>
+                <h1>Вторая жизнь для <span>ваших вещей</span></h1>
+                <p>Профессиональная химчистка и экспертный ремонт одежды. Возвращаем безупречный вид самым сложным материалам и безнадежным пятнам.</p>
+                <a href="#contact" class="btn">Оценить стоимость по фото</a>
+                <div class="hero-badge glass">
+                    <span>★★★★★</span>
+                    <strong>4.6</strong> • На основе отзывов в Яндекс Картах
+                </div>
+            </div>
+            <div class="fade-up delay-1">
+                <div class="hero-card-visual glass">
+                    <h3 style="margin-bottom: 10px; font-size: 1.5rem;">Мастерская нового поколения</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Работаем с деликатными тканями, кожей, мехом и сложной фурнитурой.</p>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <h3>100%</h3>
+                            <p>Контроль качества</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3>15 мин</h3>
+                            <p>Оценка в мессенджерах</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Services -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title fade-up">Наши услуги</h2>
+            <p class="section-subtitle fade-up">Комплексный уход за гардеробом премиального уровня</p>
+            
+            <div class="bento-grid">
+                <div class="glass bento-card large fade-up">
+                    <div>
+                        <span class="card-tag">Химчистка</span>
+                        <h3>Глубокое удаление сложных пятен</h3>
+                        <p>Безопасно выводим следы от технических жидкостей, масел, краски и сложных органических загрязнений. Профессиональные гипоаллергенные средства для любых типов ткани.</p>
+                    </div>
+                </div>
+                <div class="glass bento-card fade-up delay-1">
+                    <div>
+                        <span class="card-tag">Ремонт</span>
+                        <h3>Подгонка по фигуре</h3>
+                        <p>Идеальная посадка костюмов, пальто и джинсов. Сохраняем оригинальные фабричные швы.</p>
+                    </div>
+                </div>
+                <div class="glass bento-card fade-up delay-1">
+                    <div>
+                        <span class="card-tag">Фурнитура</span>
+                        <h3>Замена молний и кнопок</h3>
+                        <p>Используем только износостойкую премиальную фурнитуру ведущих европейских брендов.</p>
+                    </div>
+                </div>
+                <div class="glass bento-card large fade-up delay-2">
+                    <div>
+                        <span class="card-tag">Реставрация</span>
+                        <h3>Восстановление брендовых изделий</h3>
+                        <p>Реставрируем дорогие куртки, пуховики и пальто. Устраняем порезы, потертости и восстанавливаем водоотталкивающие пропитки верхнего слоя.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before / After Works Section -->
+    <section id="works">
+        <div class="container">
+            <h2 class="section-title fade-up">Примеры наших работ</h2>
+            <p class="section-subtitle fade-up">Перетащите ползунок на фото, чтобы увидеть разницу До и После</p>
+
+            <div class="works-slider-container">
+                <!-- Work Card 1: Костюм -->
+                <div class="work-card fade-up">
+                    <div class="comparison-wrapper">
+                        <img src="image 289.png" alt="Чистый костюм после чистки" class="img-after">
+                        <div class="img-before-container">
+                            <img src="image 288.png" alt="Грязный костюм до чистки">
+                        </div>
+                        <div class="slider-handle"></div>
+                    </div>
+                    <div class="work-info">
+                        <h4>Деловой костюм</h4>
+                        <p>Профессиональная деликатная химчистка премиального костюма, выведение въевшихся загрязнений.</p>
+                    </div>
+                </div>
+
+                <!-- Work Card 2: Пиджак -->
+                <div class="work-card fade-up delay-1">
+                    <div class="comparison-wrapper">
+                        <img src="image 291.png" alt="Чистый пиджак после химчистки" class="img-after">
+                        <div class="img-before-container">
+                            <img src="image 290.png" alt="Пиджак с пятном до чистки">
+                        </div>
+                        <div class="slider-handle"></div>
+                    </div>
+                    <div class="work-info">
+                        <h4>Классический пиджак</h4>
+                        <p>Точечное выведение сложных застарелых пятен и бережная влажно-тепловая обработка.</p>
+                    </div>
+                </div>
+
+                <!-- Work Card 3: Кожаная куртка -->
+                <div class="work-card fade-up delay-2">
+                    <div class="comparison-wrapper">
+                        <img src="image 293.png" alt="Чистая кожаная куртка после чистки" class="img-after">
+                        <div class="img-before-container">
+                            <img src="image 292.png" alt="Грязная кожаная куртка до химчистки">
+                        </div>
+                        <div class="slider-handle"></div>
+                    </div>
+                    <div class="work-info">
+                        <h4>Кожаная куртка</h4>
+                        <p>Глубокая чистка кожи и восстановление насыщенного цвета и мягкости материала.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Steps -->
+    <section id="process">
+        <div class="container">
+            <h2 class="section-title fade-up">Как мы работаем</h2>
+            <p class="section-subtitle fade-up">Простой путь к безупречному состоянию вашей одежды</p>
+
+            <div class="process-grid">
+                <div class="glass process-step fade-up">
+                    <div class="step-num">01</div>
+                    <h3>Пришел</h3>
+                    <p>Вы приносите вещь в нашу мастерскую по адресу Сморговский тракт, 7 (цокольный этаж) или отправляете фото онлайн.</p>
+                </div>
+                <div class="glass process-step fade-up delay-1">
+                    <div class="step-num">02</div>
+                    <h3>Увидел</h3>
+                    <p>Мастер проводит осмотр, подбирает технологию очистки или ремонта и сразу называет точную стоимость и сроки.</p>
+                </div>
+                <div class="glass process-step fade-up delay-2">
+                    <div class="step-num">03</div>
+                    <h3>Победил</h3>
+                    <p>Мы бережно устраняем любые загрязнения и повреждения. Вы получаете вещь в идеальном состоянии!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <h2 class="section-title fade-up">Отзывы клиентов</h2>
+            <p class="section-subtitle fade-up">Нам доверяют самое ценное</p>
+
+            <div class="reviews-grid">
+                <div class="glass review-card fade-up">
+                    <p class="review-text">«Отличная химчистка!!!! Сдавал дорогую куртку которую испачкал в технические жидкости (полагал что придется выбросить), вычистили отлично!! После этого неоднократно обращался и каждый раз оставался доволен их работой. Рекомендую.»</p>
+                    <div class="review-footer">
+                        <span class="author-name">Евгений Ткачев</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                </div>
+
+                <div class="glass review-card fade-up delay-1">
+                    <p class="review-text">«Прекрасный мастер. Всегда выручает, даст хороший совет по ремонту и старается все сделать быстро. Рекомендую.»</p>
+                    <div class="review-footer">
+                        <span class="author-name">Анна П.</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                </div>
+
+                <div class="glass review-card fade-up">
+                    <p class="review-text">«Пользовались услугами химчистки. Быстро, чётко, цена приемлемая, приятное отношение, всё сделали в оговоренные сроки.»</p>
+                    <div class="review-footer">
+                        <span class="author-name">Олеся Кузнецова</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                </div>
+
+                <div class="glass review-card fade-up delay-1">
+                    <p class="review-text">«Всегда все быстро и качественно. Доступные цены и отличный сервис.»</p>
+                    <div class="review-footer">
+                        <span class="author-name">Валерия Климович</span>
+                        <span class="review-stars">★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contacts -->
+    <footer id="contact">
+        <div class="container footer-grid">
+            <div class="footer-info fade-up">
+                <h3>Clean<span>&</span>Fix</h3>
+                <p>📍 г. Минск, Сморговский тракт, 7 (цокольный этаж)</p>
+                <p>📞 Телефон: <a href="tel:+375257483789" style="color: var(--emerald); text-decoration: none;">+375 25 748-37-89</a></p>
+                <p>🚇 Метро: Немига, Площадь Якуба Коласа</p>
+                <p>🚌 Остановки: Червякова, Осипенко, Кинотеатр Киев</p>
+            </div>
+            <div class="footer-col fade-up delay-1">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#works">Примеры работ</a></li>
+                    <li><a href="#process">Как мы работаем</a></li>
+                    <li><a href="#reviews">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-col fade-up delay-2">
+                <h4>Связь с нами</h4>
+                <ul>
+                    <li><a href="tel:+375257483789">Позвонить мастеру</a></li>
+                    <li><a href="#contact">Оценка по фото</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom fade-up">
+            <p>&copy; 2026 Ремонт одежды и химчистка на Сморговском. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипт Lenis -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        lenis.scrollTo(targetElement, {
+                            offset: -80
+                        });
+                    }
+                });
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Before / After Image Sliders Interaction (Обрезка контейнера без сжатия картинки)
+            document.querySelectorAll('.comparison-wrapper').forEach(wrapper => {
+                const beforeContainer = wrapper.querySelector('.img-before-container');
+                const handle = wrapper.querySelector('.slider-handle');
+                let isDragging = false;
+
+                // Устанавливаем точную ширину для внутренней картинки, чтобы она не сжималась при изменении контейнера
+                const updateWrapperWidth = () => {
+                    const rect = wrapper.getBoundingClientRect();
+                    beforeContainer.style.setProperty('--wrapper-width', rect.width + 'px');
+                };
+
+                updateWrapperWidth();
+                window.addEventListener('resize', updateWrapperWidth);
+
+                const updateSlider = (clientX) => {
+                    const rect = wrapper.getBoundingClientRect();
+                    let x = clientX - rect.left;
+                    if (x < 0) x = 0;
+                    if (x > rect.width) x = rect.width;
+                    const percent = (x / rect.width) * 100;
+                    beforeContainer.style.width = percent + '%';
+                    handle.style.left = percent + '%';
+                };
+
+                wrapper.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    updateSlider(e.clientX);
+                });
+
+                window.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    updateSlider(e.clientX);
+                });
+
+                wrapper.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    updateSlider(e.touches[0].clientX);
+                });
+
+                window.addEventListener('touchend', () => {
+                    isDragging = false;
+                });
+
+                window.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    updateSlider(e.touches[0].clientX);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
